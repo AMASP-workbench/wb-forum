@@ -1,5 +1,19 @@
 <?php
 
+/**
+ *  This is an experimental abstract class for modules for WB, especially for the 2.12.x.
+ *  Keep in mind that this one is a private project and has nothing to do with
+ *  the official WB core/module development.
+ *
+ *	@project        myon (µon)
+ *	@version		0.1.0
+ *	@authors		Dietrich Roland Pehlke (Aldus)
+ *	@license		GNU General Public License
+ *	@platform		WB 2.12.0
+ *	@requirements	PHP >= 7.2.1
+ *
+ */
+
 namespace addon\forum\classes;
 
 abstract class myon_abstract

@@ -27,6 +27,11 @@ $parser = new forum_parser();
 
 $oSubway = addon\forum\classes\subway\subway::getInstance();
 
+/**
+ *  Initialize some vars
+ */
+$forum = NULL;
+
 if (isset($_REQUEST['forumid'])) {
 	
 	$forum = $oSubway->select(
@@ -125,7 +130,7 @@ echo $parser->render(
 );
 
 	
-	if(!isset($forum))
+	if( NULL === $forum )
 	{
 	    //$admin->print_footer();
 	    return 0;

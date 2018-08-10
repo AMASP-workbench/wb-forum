@@ -32,9 +32,9 @@ $parser = new forum_parser();
 
 $oFORUM = addon\forum\classes\forum::getInstance();
 
-echo addon\forum\classes\subway\subway_tools::display( $oFORUM );
+// echo addon\forum\classes\subway\subway_tools::display( $oFORUM );
 
-return 0;
+// return 0;
 
 $oSubway = addon\forum\classes\subway\subway::getInstance();
 
