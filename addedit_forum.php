@@ -136,15 +136,31 @@ echo $parser->render(
 	    return 0;
 	}
 	
-	$query = "SELECT * FROM `".TABLE_PREFIX."mod_forum_thread` WHERE `section_id`=".$section_id." AND `page_id`=".$page_id." AND `forumid`=".$forum['forumid']." ORDER BY `threadid` DESC";
-	$result = $database->query( $query );
-	if( true === $database->is_error() )
+	// $query = "SELECT * FROM `".TABLE_PREFIX."mod_forum_thread` WHERE `section_id`=".$section_id." AND `page_id`=".$page_id." AND `forumid`=".$forum['forumid']." ORDER BY `threadid` DESC";
+	// $result = $database->query( $query );
+	$aAllPostings = $oSubway->select(
+	    TABLE_PREFIX."mod_forum_thread",
+	    "*",
+	    [
+	        ['section_id'   => $section_id ],
+	        ['bool'         => "and" ],
+	        ['page_id'      => $page_id ],
+	        ['bool'         => "and" ],
+	        ['forumid'      => $forum['forumid'] ],
+	        ['order by'     => "threadid" ],
+	        ['order rule'   => "DESC" ]
+	    ],
+	    true
+	);
+	
+	if( true === $oSubway->isError() )
 	{
-	    die($database->get_error());
+	    die($oSubway->getError());
     }
     
-	if(0 === $result->numRows())
+	if(0 === count($aAllPostings))
 	{
+	    // not postings to list
 	    $admin->print_footer();
 	    return 0;
 	}
@@ -180,7 +196,9 @@ echo $parser->render(
 	</li>";
 	
 	
-	while($temp_post = $result->fetchRow()) {
+	// while($temp_post = $result->fetchRow()) {
+	foreach($aAllPostings as $temp_post)
+	{
 		forum_str2js( $temp_post['title'] );
 		$t = array(
 			'{{ class }}' => "thread",
@@ -192,13 +210,31 @@ echo $parser->render(
 		echo str_replace( array_keys($t), array_values($t), $row_template );
 		
 		/**
-		 *	postings zu dem faden
+		 *	Postings zu dem faden
 		 */
-		$sub_query = "SELECT * FROM `".TABLE_PREFIX."mod_forum_post` WHERE `section_id`=".$section_id." AND `page_id`=".$page_id." AND `threadid`=".$temp_post['threadid']." ORDER BY `postid`";
-		$sub_result = $database->query( $sub_query );
-		if( true === $database->is_error() ) die($database->get_error());
+		$aAllSubpostings = $oSubway->select(
+		    TABLE_PREFIX."mod_forum_post",
+		    "*",
+		    [
+		        ['section_id'   => $section_id],
+		        ['bool'         => "and"],
+		        ['page_id'      => $page_id ],
+		        ['bool'         => "and" ],
+		        ['threadid'     => $temp_post['threadid'] ],
+		        ['order by'     => "postid"]
+		    ],
+		    true
+		);
+		//$sub_query = "SELECT * FROM `".TABLE_PREFIX."mod_forum_post` WHERE `section_id`=".$section_id." AND `page_id`=".$page_id." AND `threadid`=".$temp_post['threadid']." ORDER BY `postid`";
+		//$sub_result = $database->query( $sub_query );
+		if( true === $oSubway->isError() )
+		{
+		    die($oSubway->getError());
+		}
 		
-		while($sub_post = $sub_result->fetchRow()) {
+		// while($sub_post = $sub_result->fetchRow()) {
+		foreach($aAllSubpostings as $sub_post)
+		{
 			forum_str2js($sub_post['text']);
 			forum_str2js($sub_post['title']);
 			$t = array(
