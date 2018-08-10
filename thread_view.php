@@ -18,6 +18,8 @@ if(isset($_REQUEST['goto'])) $_REQUEST['tid'] = $_REQUEST['goto'];
 
 if(!isset($_REQUEST['tid'])) die("E: 120023");
 
+$oSubway2 = addon\forum\classes\subway2::getInstance();
+
 /**
  * prüfen, ob wir auf einen einzelnes posting weiterleiten sollen
  * wenn wir das an dieser stelle prüfen, müssen wir $_pages nicht
@@ -47,7 +49,7 @@ if (isset($_GET['goto']))
 	$f = $res->fetchRow( MYSQL_ASSOC );
 
 
-		//anzahl Datensätze zählen, die vor unserem liegen, brauch wir für den Link:
+		// Anzahl Datensätze zählen, die vor unserem liegen, brauch wir für den Link:
 		$sql = 'SELECT COUNT(*) as total FROM '.TABLE_PREFIX.'mod_forum_post WHERE threadid = ' . $f['threadid'] . ' AND postid <= ' . $f['postid'];
 		$res2 = $database->query($sql);
 		$_count = $res2->fetchRow();
@@ -73,20 +75,39 @@ if (isset($_GET['goto']))
 
 }
 // Validation:
-$thread_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_thread WHERE threadid = '" . intval($_REQUEST['tid']) . "'");
-$thread = $thread_query->fetchRow( MYSQL_ASSOC );
+$thread = [];
+$bSuccess = $oSubway2->execute_query(
+    "SELECT * FROM " . TABLE_PREFIX . "mod_forum_thread WHERE threadid = '" . intval($_REQUEST['tid']) . "'",
+    true,
+    $thread,
+    false
+);
+//$thread_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_thread WHERE threadid = '" . intval($_REQUEST['tid']) . "'");
+//$thread = $thread_query->fetchRow( MYSQL_ASSOC );
 
-if(!$thread)
+if( false === $bSuccess )
 {
-	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+    die( $oSubway2->getError() );
+	//die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+} else {
+    // echo $oSubway2->display( $thread );
 }
 
-$forum_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($thread['forumid']) . "'");
-$forum = $forum_query->fetchRow( MYSQL_ASSOC );
+$forum = [];
+$bSuccess = $oSubway2->execute_query(
+    "SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($thread['forumid']) . "'",
+    true,
+    $forum,
+    false
+);
 
-if(!$forum)
+//$forum_query = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($thread['forumid']) . "'");
+//$forum = $forum_query->fetchRow( MYSQL_ASSOC );
+
+if( false === $bSuccess )
 {
-	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
+    die( $oSubway2->getError() );
+	//die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
 else
 {
@@ -97,20 +118,24 @@ else
 
 require_once(WB_PATH . '/modules/forum/backend.php');
 
-$query_page = $database->query("
+$page = [];
+$oSubway2->execute_query(
+    "
 	SELECT * FROM ".TABLE_PREFIX."pages AS p
 	INNER JOIN ".TABLE_PREFIX."sections AS s USING(page_id)
-	WHERE p.page_id = '$page_id' AND section_id = '$section_id'
-");
+	WHERE p.page_id = '$page_id' AND section_id = '$section_id' ",
+    true,
+    $page,
+    false
+);
 
-if(0 == $query_page->numRows())
+if(0 == count( $page ))
 {
+    die("Oh my g!");
 	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
 else
 {
-	$page = $query_page->fetchRow( MYSQL_ASSOC );
-
 	define('FORUM_DISPLAY_CONTENT', 'view_thread');
 	define('PAGE_CONTENT', WB_PATH . '/modules/forum/content.php');
 

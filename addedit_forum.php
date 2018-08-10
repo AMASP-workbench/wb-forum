@@ -25,15 +25,32 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
 $parser = new forum_parser();
 
+$oSubway = addon\forum\classes\subway\subway::getInstance();
+
 if (isset($_REQUEST['forumid'])) {
-	$forum = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['forumid']) . "' AND `section_id` = '".$section_id."' AND `page_id` = '".$page_id."'");
-	if ( 0 === $forum->numRows() ) {
+	
+	$forum = $oSubway->select(
+	    TABLE_PREFIX . "mod_forum_forum",
+	    "*",
+	    [
+	        ["forumid" => intval($_REQUEST['forumid']) ],
+	        ["bool"        => "and" ],
+	        ["section_id"   => $section_id ],
+	        ["bool"        => "and" ],
+	        ["page_id"      => $page_id ]
+	        
+	    ],
+	    false
+	);
+	// echo addon\forum\classes\subway\subway_tools::display( $forum );
+	
+	
+	if ( 0 === count( $forum ) ) {
 		$admin->print_error(
 			$MOD_FORUM['TXT_NO_ACCESS_F'],
 			ADMIN_URL.'/pages/modify.php?page_id='.$page_id.'&section_id='.$section_id
 		);
 	}
-	$forum = $forum->fetchRow();
 }
 
 require_once(WB_PATH . '/modules/forum/backend.php');

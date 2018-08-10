@@ -30,15 +30,36 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
 $parser = new forum_parser();
 
-$forums = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."' ORDER BY `displayorder` ASC");
+$oFORUM = addon\forum\classes\forum::getInstance();
 
-if($database->is_error()) {
+echo addon\forum\classes\subway\subway_tools::display( $oFORUM );
+
+return 0;
+
+$oSubway = addon\forum\classes\subway\subway::getInstance();
+
+$forums = $oSubway->select(
+    TABLE_PREFIX . "mod_forum_forum",
+    "*",
+    [ 
+        ["section_id"  => $section_id ],
+        ["bool"        => "and" ],
+        ["page_id"     => $page_id ],
+   //     ["bool"        => "and" ],
+   //     ["like"        => [ "title", "%aldus%" ] ],
+        ["order by"    => "displayorder" ],
+        ["order rule"  => "ASC" ]
+    ],
+    true
+);
+
+if($oSubway->isError()) {
 	/**
 	 *	There has been an error during the last query: 
 	 */
-	$message = $database->get_error();
+	$message = $oSubway2->getError();
 	$forum_list = "";
-} elseif (0 == $forums->numRows()) {
+} elseif (0 == count($forums) ) { // $forums->numRows()) {
 
 	/**
 	 *	No results found - no forums to list here
@@ -48,6 +69,8 @@ if($database->is_error()) {
 	
 } else {
 
+    // echo addon\forum\classes\subway\subway_tools::display( $oSubway );
+	
 	/**
 	 *	List the forums
 	 *	
@@ -56,7 +79,8 @@ if($database->is_error()) {
 	
 	ob_start();
 	$forum_array = array();
-	while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
+	//while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
+	foreach($forums as $forum)
 	{
 		$forum_array[ $forum['parentid'] ][ $forum['forumid'] ] = $forum;
 	}

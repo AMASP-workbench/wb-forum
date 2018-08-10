@@ -15,7 +15,7 @@ $module_directory	= 'forum';
 $module_name		= 'Forum';
 $module_function	= 'page';
 $module_version		= '0.5.10';
-$module_platform	= '2.8';
+$module_platform	= '2.11';
 $module_license		= 'GNU General Public License';
 $module_author		= 'Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)';
 $module_home		= 'http://addon.websitebaker.org/pages/en/browse-add-ons.php?type=1';
