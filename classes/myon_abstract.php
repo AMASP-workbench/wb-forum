@@ -2,7 +2,7 @@
 
 namespace addon\forum\classes;
 
-abstract class µon_abstract
+abstract class myon_abstract
 {
     /**
      *  Array with the language(-array) of the child-object.

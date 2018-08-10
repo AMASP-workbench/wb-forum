@@ -13,7 +13,7 @@
  
  namespace addon\forum\classes;
  
- class forum extends µon_abstract
+ class forum extends myon_abstract
  {
     static $instance;
     
