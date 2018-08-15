@@ -11,6 +11,27 @@
  *
  */
 
+global $section_id;
+if(!isset($section_id))
+{
+    if(isset($_GET['sid']))
+    {
+        $section_id= intval($_GET['sid']);
+    } else {
+        $section_id = 0;
+    }
+}
+global $page_id;
+if(!isset($page_id))
+{
+    if(isset($_GET['pid']))
+    {
+        $page_id= intval($_GET['pid']);
+    } else {
+        $page_id = 0;
+    }
+}
+
 require_once(WB_PATH . '/modules/forum/config.php');
 
 if (!defined('SKIP_CACHE')) {

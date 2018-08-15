@@ -11,6 +11,29 @@
  *
  */
 
+global $section_id;
+if(!isset($section_id))
+{
+    if(isset($_GET['sid']))
+    {
+        $section_id= intval($_GET['sid']);
+    } else {
+        $section_id = 0;
+    }
+}
+
+global $page_id;
+if(!isset($page_id))
+{
+    if(isset($_GET['pid']))
+    {
+        $page_id= intval($_GET['pid']);
+    } else {
+        $page_id = 0;
+    }
+}
+
+// die(var_dump( $section_id ));
 // Include config file
 require('../../config.php');
 
@@ -18,7 +41,7 @@ if(isset($_REQUEST['goto'])) $_REQUEST['tid'] = $_REQUEST['goto'];
 
 if(!isset($_REQUEST['tid'])) die("E: 120023");
 
-$oSubway2 = addon\forum\classes\subway2::getInstance();
+$oSubway2 = addon\forum\classes\subway\subway::getInstance();
 
 /**
  * prüfen, ob wir auf einen einzelnes posting weiterleiten sollen
@@ -130,7 +153,7 @@ $oSubway2->execute_query(
 );
 
 if(0 == count( $page ))
-{
+{   echo var_dump($oSubway2);
     die("Oh my g!");
 	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }

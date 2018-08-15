@@ -1,0 +1,35 @@
+{% autoescape false %}
+
+<p></p>
+<h3>List of postings</h3>
+<form id="forum_{{ section_id }}" class="forum" action="<?php echo WB_URL; ?>/modules/forum/insertupdate_forum.php" method="post">
+<input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
+<input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+<input type="hidden" name="forumid" value="<?php echo $forum['forumid']; ?>" />
+<input type="hidden" name="postid" value="-1" />
+<input type="hidden" name="class" value="-1" />
+<input type="hidden" name="ts_val" value="<?php echo time(); ?>" />
+<input type="hidden" name="job_" value="del" />
+
+{{ FTAN }}
+
+<ul class="forum_list_postings">
+
+
+	<li class='{{ class }}'>
+		<div class='forum_list_action'>
+			<!--<a href='#'><img class='f_action' src='".THEME_URL."/images/modify_16.png' alt='' title='edit'></a>-->
+			<a href='#' onclick=\"delete_thread('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}','{{ lang }}');\"><img class='f_action' src='".THEME_URL."/images/delete_16.png' alt='' title='delete'></a>
+		</div>
+		<div class='forum_list_id'>[ {{ id }} ]</div>
+		<div class='forum_list_date'>{{ date }}</div>
+		<div class='forum_list_title'><a href='#' onclick=\"edit_post('forum_".$section_id."',{{ id }},'{{ title }}','{{ class }}','".$edit_link."');\" >{{ title }}</a></div>
+		
+	</li>
+	
+
+</ul>
+</form>
+
+
+{% endautoescape %}

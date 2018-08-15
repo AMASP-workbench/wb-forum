@@ -22,8 +22,9 @@ if (!defined('WB_PATH')) die(); // { throw new Exception('Cannot access the addo
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
-require_once(dirname(__FILE__)."/classes/class.subway.php");
-$subway = new subway();
+//require_once(dirname(__FILE__)."/classes/class.subway.php");
+//$subway = new subway();
+$subway = addon\forum\classes\subway\subway::getInstance();
 
 $username = "";
 
@@ -303,23 +304,56 @@ if(false === $user_can_create_topic) {
 					}
 				}
 			}
+			/*
 			$database->query("
 				INSERT INTO " . TABLE_PREFIX . "mod_forum_post
 					(userid, title, dateline, text, username, page_id, section_id)
 				VALUES
 					('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . $username . "', '$page_id', '$section_id')
 			");
-
+            */
+            $aTempFields = [
+                'userid'    => $wb->get_user_id(),
+                'title'     => trim($_POST['title']),
+                'dateline'  => time(),
+                'text'      => trim($_POST['text']),
+                'search_text'   => trim($_POST['text']), // !*
+                'username'  => $username,
+                'page_id'   => $page_id,
+                'section_id'    => $section_id
+            ];
+			$subway->insert(
+			    TABLE_PREFIX . "mod_forum_post",
+			    $aTempFields
+			);
+			
 			$id = $database->query("SELECT LAST_INSERT_ID() AS id");
 			$id = $id->fetchRow();
 
+            $aTempFields = [
+                'user_id'        => $wb->get_user_id(), // ! user_id
+                'username'      => $username,
+                'title'         => trim($database->escapeString($_POST['title'])), // !
+                'dateline'      => time(),
+                'firstpostid'   => $id['id'],
+                'lastpostid'    => $id['id'],
+                'forumid'       => $forum['forumid'],
+                'open'          => 1,
+                'page_id'       => $page_id,
+                'section_id'    => $section_id
+            ];
+            $subway->insert(
+                TABLE_PREFIX . "mod_forum_thread",
+                $aTempFields
+            );
+			/*
 			$database->query("
 				INSERT INTO " . TABLE_PREFIX . "mod_forum_thread
 					(user_id, username, title, dateline, firstpostid, lastpostid, lastpost, forumid, open, page_id, section_id)
 				VALUES
 					('" . $wb->get_user_id() . "', '" . @$username . "', '" . trim($database->escapeString($_POST['title'])) . "', '" . time() . "', '" . $id['id'] . "', '" . $id['id'] . "', '" . time() . "', '" . $forum['forumid'] . "', 1, '$page_id', '$section_id')
 			");
-			
+			*/
 if($database->is_error()) die( $database->get_error());
 
 			$tid = $database->query("SELECT LAST_INSERT_ID() AS id");
@@ -749,12 +783,31 @@ $_POST['text'] = $database->escapeString($_POST['text']);
 	$_search_string .= preg_replace("/\b([a-zöäüﬂ0-9]{3})\b/i", "$1_x_$1", strip_bbcode($_POST['text']) ) ;
 
 	// weiter im original: ===================================================
+
+    $aTempFields = [
+        'userid'        => $wb->get_user_id(),
+        'title'         => trim($_POST['title']),
+        'dateline'      => time(),
+        'text'          => trim($_POST['text']),    // !
+        'search_text'   => $_search_string ,
+        'username'      => $username,
+        'threadid'      => $thread[threadid],
+        'page_id'       => $page_id,
+        'section_id'    => $section_id
+    ];
+	$subway->insert(
+	    TABLE_PREFIX . "mod_forum_post",
+	    $aTempFields
+	);
+	/*
 	$database->query("
 		INSERT INTO " . TABLE_PREFIX . "mod_forum_post
 			(userid, title, dateline, text, search_text, username, threadid, page_id, section_id)
 		VALUES
 			('" . $wb->get_user_id() . "', '" . trim($_POST['title']) . "', '" . time() . "', '" . trim($_POST['text']) . "', '" . $_search_string . "', '" . $username . "', '$thread[threadid]', '$page_id', '$section_id')
 	");
+    */
+
 if($database->is_error()) {
     die("[111] ".$username."   ".$database->get_error());
 }
