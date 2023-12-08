@@ -3,16 +3,16 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-require('../../config.php');
-require(WB_PATH . '/modules/admin.php');
+require_once '../../config.php';
+require_once WB_PATH . '/modules/admin.php';
 
 if (!$admin->checkFTAN())
 {
@@ -20,7 +20,7 @@ if (!$admin->checkFTAN())
 	$admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], ADMIN_URL.'/pages/modify.php?page_id='.$page_id);
 }
 
-include_once(WB_PATH .'/framework/module.functions.php');
+include_once WB_PATH .'/framework/module.functions.php';
 
 /**
  *        Load Language file
@@ -32,13 +32,13 @@ if (!$section_id OR !$page_id) {
 	exit;
 }
 
-require_once(WB_PATH . '/modules/forum/classes/class_forumcache.php');
+require_once WB_PATH . '/modules/forum/classes/class_forumcache.php';
 
 if(isset($_POST['job_'])) {
-	
+
 	if($_POST['job_'] == "del") {
 		$postid = intval($_POST['postid']);
-		
+
 		/**
 		 *	Delete a single post inside a thread
 		 *
@@ -47,7 +47,7 @@ if(isset($_POST['job_'])) {
 			$database->query("DELETE FROM `".TABLE_PREFIX."mod_forum_post` WHERE `postid`=".$postid);
 			if($database->is_error()) die($database->get_error());
 		}
-		
+
 		/**
 		 *	Delete a compete thread
 		 *
@@ -57,12 +57,12 @@ if(isset($_POST['job_'])) {
 
 			$database->query( "DELETE FROM `".TABLE_PREFIX."mod_forum_thread` WHERE `threadid`=".$postid );
 			if($database->is_error()) die($database->get_error());
-			
+
 			$database->query( "DELETE FROM `".TABLE_PREFIX."mod_forum_post` WHERE `threadid`=".$postid );
 			if($database->is_error()) die($database->get_error());
 		}
 	}
-	
+
 	$admin->print_success($MOD_FORUM["Forum_saved"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 	return 0;
 }
@@ -70,7 +70,7 @@ if(isset($_POST['job_'])) {
 // Have we to update? Verify given forum id
 if ($_REQUEST['forumid'])
 {
-	$forum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_REQUEST['forumid']) . "' AND section_id = '$section_id' AND page_id = '$page_id'");
+	$forum = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_REQUEST['forumid']) . "' AND `section_id` = '$section_id' AND `page_id` = '$page_id'");
 	if (0 === $forum->numRows())
 	{
 		$admin->print_error($MOD_FORUM["Error_no_forum"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
@@ -80,9 +80,9 @@ if ($_REQUEST['forumid'])
 
 	//	Delete the Forum + Contents
 	if (isset($_POST['delete']))
-	{		
+	{
 		$toDelete = array($forum['forumid']);
-		$getChildren =	$database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `parentid` > '0'");	
+		$getChildren =	$database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `parentid` > '0'");
 		while ($row = $getChildren->fetchRow()){
 			$children[$row['parentid']][] = $row['forumid'];
 		}
@@ -96,20 +96,20 @@ if ($_REQUEST['forumid'])
 			}
 		}
 
-		$delIds = implode(",",$toDelete);							
-		$sql = "DELETE t, p, f 
-						FROM `".TABLE_PREFIX . "mod_forum_forum` as f 
-							LEFT JOIN ".TABLE_PREFIX . "mod_forum_thread as t 
-								ON  t.forumid=f.forumid
-								LEFT JOIN ". TABLE_PREFIX . "mod_forum_post as p 
-									ON t.threadid=p.threadid 								  
-						WHERE f.forumid IN (".$delIds.")";
-							
-    	$database->query($sql);   
+		$delIds = implode(",",$toDelete);
+		$sql = "DELETE `t`, `p`, `f`
+						FROM `".TABLE_PREFIX . "mod_forum_forum` as `f`
+							LEFT JOIN `".TABLE_PREFIX . "mod_forum_thread` as `t`
+								ON  `t`.`forumid`=`f`.`forumid`
+								LEFT JOIN `". TABLE_PREFIX . "mod_forum_post` as `p`
+									ON `t`.`threadid`=`p`.`threadid`
+						WHERE `f`.`forumid` IN (".$delIds.")";
+
+    	$database->query($sql);
 
 		$fcb = new ForumCacheBuilder($database, $section_id, $page_id);
 		$fcb->update_cache();
-		
+
 		//delete settings if last forum in section was deleted
 		$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_forum` WHERE `section_id` = ".$section_id;
 		$temp_result = $database->query( $sql );
@@ -117,7 +117,7 @@ if ($_REQUEST['forumid'])
 			$sql = "DELETE FROM `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
 			$database->query($sql);
 		}
-    
+
 		$admin->print_success($MOD_FORUM["Forum_deleted"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
 		exit;
 	}
@@ -140,7 +140,7 @@ if (!in_array($_POST['readaccess'], array('reg', 'unreg', 'both')))
 if ($_POST['parentid'])
 {
 	//TODO Forum = Unterforum von sich selbst?
-	$parentforum = $database->query("SELECT * FROM " . TABLE_PREFIX . "mod_forum_forum WHERE forumid = '" . intval($_POST['parentid']) . "'");
+	$parentforum = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($_POST['parentid']) . "'");
 	if (!$parentforum->numRows())
 	{
 		$admin->print_error($MOD_FORUM['Error_no_parent'], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
@@ -162,7 +162,7 @@ function is_subforum_of($forumid, $parentid)
 	if (empty($iforumcache))
 	{
 		$forums = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."' ORDER BY `displayorder` ASC");
-		while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
+		while ($forum = $forums->fetchRow( MYSQLI_ASSOC ))
 		{
 			$iforumcache["$forum[parentid]"]["$forum[forumid]"] = $forum;
 		}
@@ -195,7 +195,7 @@ if (isset($forum['forumid']))
 				`readaccess` = '" . $_POST['readaccess'] . "',
 				`writeaccess` = '" . $_POST['writeaccess'] . "'
 		WHERE
-			forumid = '".$forum['forumid']."'
+			`forumid` = '".$forum['forumid']."'
 	");
 
 	if($database->is_error()) {
@@ -213,9 +213,9 @@ else
 	// Insert new Forum!
 	$database->query("
 		INSERT INTO `" . TABLE_PREFIX . "mod_forum_forum`
-			(`title`, `description`, `displayorder`, `parentid`, `page_id`, `section_id`, `readaccess`, `writeaccess`)
+			(`title`, `description`, `displayorder`, `parentid`, `page_id`, `section_id`, `readaccess`, `writeaccess`, `lastpostinfo`)
 		VALUES
-			('" . $database->escapeString($_POST['title']) . "', '" .$database->escapeString( $_POST['description'] ). "', '" . intval($_POST['displayorder']) . "', '" . intval($_POST['parentid']) . "', '$page_id', '$section_id', '" . $_POST['readaccess'] . "', '" . $_POST['writeaccess'] . "')
+			('" . $database->escapeString($_POST['title']) . "', '" .$database->escapeString( $_POST['description'] ). "', '" . intval($_POST['displayorder']) . "', '" . intval($_POST['parentid']) . "', '$page_id', '$section_id', '" . $_POST['readaccess'] . "', '" . $_POST['writeaccess'] . "','')
 	");
 
 	if($database->is_error()) {
@@ -224,14 +224,14 @@ else
 			ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id
 		);
 	}
-	
+
 	$fcb = new ForumCacheBuilder($database, $section_id, $page_id);
 	$fcb->build_cache(0);
 	$fcb->save();
-	
+
 	// insert settings entry if first forum on section
 	$query_settings = $database->query( "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id );
-	
+
 	if( $database->is_error() ) {
 		$admin->print_error(
 			"Error[3.1] 'try to get section_id' --> ".$database->get_error(),
@@ -242,7 +242,7 @@ else
 	if ($query_settings === false || $query_settings->numRows()  == 0) {
 		$sql = "INSERT INTO `".TABLE_PREFIX."mod_forum_settings` VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum')";
 		$database->query($sql);
-		
+
 		if( $database->is_error() ) {
 			$admin->print_error(
 				"Error[3.2] 'try to insert defaults' --> ".$database->get_error(),
@@ -253,4 +253,3 @@ else
 }
 
 $admin->print_success($MOD_FORUM["Forum_saved"], ADMIN_URL . '/pages/modify.php?page_id=' . $page_id . '&section_id=' . $section_id);
-?>

@@ -91,34 +91,34 @@ $MOD_FORUM = array(
 	'TXT_CANCEL_B'					=> 'Annuleren',
 	'TXT_READ_B'					=> 'Lezen:',
 	'TXT_WRITE_B'					=> 'Schrijven:',
-	'TXT_FORUMDISPLAY_PERPAGE_B'	=> 'Number of threads per page?',
-	'TXT_SHOWTHREAD_PERPAGE_B'		=> 'Number of posts per page?',
-	'TXT_PAGENAV_SIZES_B'			=> 'Use different font sizes for page navigation?',
-	'TXT_DISPLAY_SUBFORUMS_B'		=> 'Show sub threads on start page?',
-	'TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B'	=> 'Show sub threads in thread view?',
-	'TXT_FORUM_USE_CAPTCHA_B'		=> 'Use captchas for guests?',
+	'TXT_FORUMDISPLAY_PERPAGE_B'	=> 'Aantal draden per pagina?',
+	'TXT_SHOWTHREAD_PERPAGE_B'		=> 'Aantal berichten per pagina?',
+	'TXT_PAGENAV_SIZES_B'			=> 'Gebruik verschillende lettergroottes voor paginanavigatie?',
+	'TXT_DISPLAY_SUBFORUMS_B'		=> 'Toon de sub-draden op de startpagina?',
+	'TXT_DISPLAY_SUBFORUMS_FORUMDISPLAY_B'	=> 'Toon sub-draden in draadaanzicht?',
+	'TXT_FORUM_USE_CAPTCHA_B'		=> "Gebruik captcha's voor gasten?",
 	
-	'TXT_ADMIN_GROUP_ID_B'			=> 'Admin group (has permission to edit posts)?',
-	'NO_ADDITIONAL_GROUP'			=> "no additional group",
+	'TXT_ADMIN_GROUP_ID_B'			=> 'Admin groep (heeft toestemming om berichten te bewerken)?',
+	'NO_ADDITIONAL_GROUP'			=> "geen extra groep",
 	
 	
-	'TXT_VIEW_FORUM_SEARCH_B'		=> 'Show search field?',
-	'TXT_FORUM_MAX_SEARCH_HITS_B'	=> 'Maximum search hits to show?',
-	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Send email notifiaction on new post in thread?',
-	'TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B'	=> 'Inform this address on every new post?',
-	'TXT_FORUM_MAIL_SENDER_B'		=> 'Email sender address?',
-	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?',
-	'TXT_USE_SMILEYS_B'				=> 'Use Smileys?',
-	'TXT_HIDE_EDITOR_B'				=> 'Hide Editor?',
+	'TXT_VIEW_FORUM_SEARCH_B'		=> 'Toon zoekveld?',
+	'TXT_FORUM_MAX_SEARCH_HITS_B'	=> 'Maximale zoekresultaten te tonen?',
+	'TXT_FORUM_SENDMAILS_ON_NEW_POSTS_B'	=> 'Stuur e-mail notificatie op nieuwe post in draad?',
+	'TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B'	=> 'Informeer dit adres op elke nieuwe post?',
+	'TXT_FORUM_MAIL_SENDER_B'		=> 'Email afzenderadres?',
+	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Naam afzender e-mail?',
+	'TXT_USE_SMILEYS_B'				=> 'Gebruik Smileys?',
+	'TXT_HIDE_EDITOR_B'				=> 'Verberg de editor?',
+    'TXT_POSTINGS_B'                => 'Bijdragen',
 	
 	//	0.5.9 
 	
-	'Forum_saved'	=> 'Forum saved!',
-	'Forum_deleted'	=> 'Forum deleted!',
-	'Error_no_title'	=> 'Please insert a titel!',
-	'Error_no_comment'	=> 'Please insert a comment for this forum.',
-	'Error_no_parent'	=> 'Parent forum fouls!',
-	'Error_no_subforum'	=> 'You can not set a forum himself as a subforum!',
-	'Error_no_forum'	=> 'Forum fouls!'
+	'Forum_saved'	=> 'Forum opgeslagen!',
+	'Forum_deleted'	=> 'Forum verwijderd!',
+	'Error_no_title'	=> 'Gelieve een titel in te voegen!',
+	'Error_no_comment'	=> 'Gelieve een commentaar in te voegen voor dit forum.',
+	'Error_no_parent'	=> 'Fouten in het ouderforum!',
+	'Error_no_subforum'	=> 'Je kunt niet zelf een forum instellen als subforum...!',
+	'Error_no_forum'	=> 'Forum overtredingen!'
 );
-?>

@@ -3,16 +3,16 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
  
-require('../../config.php');
-require(WB_PATH.'/modules/admin.php');		
+require_once '../../config.php';
+require_once WB_PATH.'/modules/admin.php';
 
 /**
  *        Load Language file
@@ -23,16 +23,16 @@ require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $
 /**
  *	Parser for wb 2.8.3
  */
-require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+require_once __DIR__."/classes/class.forum_parser.php";
 $parser = new forum_parser();
 
-require_once( dirname(__FILE__)."/libs/parsedown/Parsedown.php");
-$source = file_get_contents( dirname(__FILE__)."/README.md");
+require_once __DIR__."/libs/parsedown/Parsedown.php";
+$source = file_get_contents(__DIR__."/README.md");
 $Parsedown = new Parsedown();
 $html = $Parsedown->text($source);
 
 $page_values = array(
-	'WB_URL'	=> WB_URL,
+	'WB_URL'	    => WB_URL,
 	'ADMIN_URL'		=> ADMIN_URL,
 	'TEXT_OK'		=> 'Ok',
 	'section_id'	=> $section_id,
@@ -48,5 +48,3 @@ echo $parser->render(
 
 
 $admin->print_footer();
-
-?>

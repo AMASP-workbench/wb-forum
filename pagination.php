@@ -3,18 +3,18 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-require_once("functions.php");
+require_once "functions.php";
 
-$thread_count = $database->query("SELECT COUNT(threadid) AS total FROM " . TABLE_PREFIX . "mod_forum_thread WHERE forumid = '" . intval($forum['forumid']) . "'");
-$thread_count = $thread_count->fetchRow( MYSQL_ASSOC );
+$thread_count = $database->query("SELECT COUNT(`threadid`) AS `total` FROM `" . TABLE_PREFIX . "mod_forum_thread` WHERE `forumid` = '" . intval($forum['forumid']) . "'");
+$thread_count = $thread_count->fetchRow( MYSQLI_ASSOC );
 
 $page = (isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1);
 $pagecount = ceil($thread_count['total'] / FORUMDISPLAY_PERPAGE);
@@ -28,11 +28,11 @@ if ($start < 0) {
 	$start = 0;
 }
 $threads = $database->query("
-	SELECT t.*, u.*, IF(NOT ISNULL(u.user_id), u.display_name, t.username) AS display_name
-	FROM " . TABLE_PREFIX . "mod_forum_thread AS t
-	LEFT JOIN " . TABLE_PREFIX . "users AS u ON(u.user_id = t.user_id)
-	WHERE t.forumid = '" . intval($forum['forumid']) . "'
-	ORDER BY t.lastpost DESC
+	SELECT `t`.*, `u`.*, IF(NOT ISNULL(`u`.`user_id`), `u`.`display_name`, `t`.`username`) AS `display_name`
+	FROM `" . TABLE_PREFIX . "mod_forum_thread` AS `t`
+	LEFT JOIN `" . TABLE_PREFIX . "users` AS `u` ON(`u`.`user_id` = `t`.`user_id`)
+	WHERE `t`.`forumid` = '" . intval($forum['forumid']) . "'
+	ORDER BY `t`.`lastpost` DESC
 	LIMIT $start, $perpage
 ");
 
@@ -47,4 +47,3 @@ for($i = 1; $i <= $pagecount; $i++){
 		$pagenav .= '<span '.(fetch_fontsize_from_page($i,$page)).'><a href="'.$page_url.'&page='.$i.'">'.$i.'</a></span>&nbsp;';
 	}
 }
-?>

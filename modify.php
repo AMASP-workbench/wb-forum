@@ -3,20 +3,15 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-// prevent this file from being accessed directly
-if(!defined('WB_PATH'))
-{
-	header('Location: index.php');
-	exit;
-}
+defined('WB_PATH') OR header('Location: ../../index.php');
 
 if(!defined('SKIP_CACHE')) define('SKIP_CACHE', 1);
 require_once(WB_PATH . '/modules/forum/backend.php');
@@ -27,66 +22,66 @@ require_once(WB_PATH . '/modules/forum/backend.php');
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
-require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+require_once __DIR__."/classes/class.forum_parser.php";
 $parser = new forum_parser();
 
 $forums = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."' ORDER BY `displayorder` ASC");
 
 if($database->is_error()) {
-	/**
-	 *	There has been an error during the last query: 
-	 */
-	$message = $database->get_error();
-	$forum_list = "";
+    /**
+     *    There has been an error during the last query:
+     */
+    $message = $database->get_error();
+    $forum_list = "";
 } elseif (0 == $forums->numRows()) {
 
-	/**
-	 *	No results found - no forums to list here
-	 */
-	$message = $MOD_FORUM['TXT_NO_FORUMS_B'];
-	$forums_list = "";
-	
+    /**
+     *    No results found - no forums to list here
+     */
+    $message = $MOD_FORUM['TXT_NO_FORUMS_B'];
+    $forums_list = "";
+
 } else {
 
-	/**
-	 *	List the forums
-	 *	
-	 */
-	$message = "";
-	
-	ob_start();
-	$forum_array = array();
-	while ($forum = $forums->fetchRow( MYSQL_ASSOC ))
-	{
-		$forum_array[ $forum['parentid'] ][ $forum['forumid'] ] = $forum;
-	}
+    /**
+     *    List the forums
+     *
+     */
+    $message = "";
 
-	// Zuordnung Foren -> Level:
-	$arrLevel = getForumLevel();
+    ob_start();
+    $forum_array = array();
+    while ($forum = $forums->fetchRow( MYSQLI_ASSOC ))
+    {
+        $forum_array[ $forum['parentid'] ][ $forum['forumid'] ] = $forum;
+    }
 
-	print_forums(0);
+    // Zuordnung Foren -> Level:
+    $arrLevel = getForumLevel();
 
-	$forums_list = "<ul class='forum_list'>".ob_get_clean()."</ul>";
+    print_forums(0);
+
+    $forums_list = "<ul class='forum_list'>".ob_get_clean()."</ul>";
 }
 
 /**
- *	Collecting the values/datas for the page
+ *    Collecting the values/datas for the page
  */
 $page_data = array(
-	'WB_PATH' => WB_PATH,
-	'WB_URL' => WB_URL,
-	'section_id'	=> $section_id,
-	'page_id'	=> $page_id,
-	'MOD_FORUM_TXT_CREATE_FORUM_B'	=> $MOD_FORUM['TXT_CREATE_FORUM_B'],
-	'MOD_FORUM_TXT_FORUMS_B'	=> $MOD_FORUM['TXT_FORUMS_B'],
-	'TEXT_HELP'	=> $MENU["HELP"],
-	'TEXT_SETTINGS'	=> $TEXT['SETTINGS'],
-	'message'		=> $message,
-	'forums_list'	=> $forums_list
+    'WB_PATH'                       => WB_PATH,
+    'WB_URL'                        => WB_URL,
+    'section_id'                    => $section_id,
+    'page_id'                       => $page_id,
+    'MOD_FORUM_TXT_CREATE_FORUM_B'  => $MOD_FORUM['TXT_CREATE_FORUM_B'],
+    'MOD_FORUM_TXT_FORUMS_B'        => $MOD_FORUM['TXT_FORUMS_B'],
+    'TEXT_HELP'                     => $MENU["HELP"],
+    'TEXT_SETTINGS'                 => $TEXT['SETTINGS'],
+    'message'                       => $message,
+    'forums_list'                   => $forums_list
 );
 
 echo $parser->render(
-	"modify.lte",
-	$page_data
+    "modify.lte",
+    $page_data
 );
 

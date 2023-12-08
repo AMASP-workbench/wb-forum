@@ -3,8 +3,8 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
@@ -20,7 +20,7 @@
  */
 function forum_search($search) {
 	
-	require_once(dirname(__FILE__)."/classes/class.subway.php");
+	require_once __DIR__."/classes/class.subway.php";
 	$subway = new subway();
 
 	$all_results = array();
@@ -50,5 +50,3 @@ function forum_search($search) {
 	
 	return $result;
 }
-
-?>

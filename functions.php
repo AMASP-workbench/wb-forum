@@ -42,6 +42,27 @@ function fetch_fontsize_from_page($pagenum, $selpage)
 }
 
 /**
+ * v0.6
+ *
+ * @access public
+ * @return bool
+ **/
+function has_access(array $forum) : bool
+{
+    global $wb;
+    if (!(
+                $forum['readaccess'] == 'both'
+            || ($forum['readaccess'] == 'reg'   &&  $wb->get_user_id())
+            || ($forum['readaccess'] == 'unreg' && !$wb->get_user_id())
+        )
+    ) {
+        return false;
+    }
+    return true;
+}   // end function has_access()
+
+
+/**
  * mod otherworld.de
  * $arrLevel mit global eingebunden wird in modify.php als ergebnis von
  *			 SELF::getForumLevel bereitgestellt
@@ -79,7 +100,7 @@ function getForumLevel($parentid = 0, $level = 1)
 	$forumcache = array();
 	$res = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_cache` WHERE `section_id` = '".$section_id."' AND `page_id` = '".$page_id."'");
 
-	while ($cache_entry = $res->fetchRow( MYSQL_ASSOC )) {
+	while ($cache_entry = $res->fetchRow( MYSQLI_ASSOC )) {
 		${$cache_entry['varname']} = unserialize($cache_entry['data']);
 	}
 
@@ -227,15 +248,15 @@ function parse_bbcode($text, $quote) {
 	$in = array(
 		'/\[list\](.*?)\[\/list\]/ms'	=> '<ul>\1</ul>',	//	#1
 		'/\[list=([0-9]{1,})\](.*?)\[\/list\]/ms'	=> '<ol class="with_counter" start="\1">\2</ol>',	//	#1.2
-		
+
 		'/\[li\](.*?)\[\/li\]/ms'		=> '<li>\1</li>',	//	#2
-		
+
 		'/\[\*\](.*?)[\r|\n]/ms'		=> '<li>\1</li>',	//	#3
-		
+
 		'/\[code\](.*?)\[\/code\]/ms'	=> '<pre class="forum_code">\1</pre>',	//	#4
-		
+
 		'/\[img\](.*?)\[\/img\]/ms'	=> '<img src="\1" alt="\1"/>',	//	#5
-		
+
 		'/\[b\](.*?)\[\/b\]/ms'			=> '<strong>\1</strong>',
 		'/\[i\](.*?)\[\/i\]/ms'			=> '<em>\1</em>',
 		'/\[u\](.*?)\[\/u\]/ms'			=> '<u>\1</u>',
@@ -271,11 +292,11 @@ function strip_bbcode($text) {
 		'/\[li\](.*?)\[\/li\]/ms'		=> '\1',	// #2
 
 		'/\[\*\](.*?)[\r|\n]/ms'		=> '\1',	// #3
-		
+
 		'/\[code\](.*?)\[\/code\]/ms'	=> '\1',	// #4
-		
+
 		'/\[img\](.*?)\[\/img\]/ms'		=> '\1',		// #5
-		
+
 		'/\[b\](.*?)\[\/b\]/ms'			=> '\1',
 		'/\[i\](.*?)\[\/i\]/ms'			=> '\1',
 		'/\[u\](.*?)\[\/u\]/ms'			=> '\1',
@@ -285,7 +306,7 @@ function strip_bbcode($text) {
 		'/\[color\="?(.*?)"?\](.*?)\[\/color\]/ms'	=> '\2',
 		'/\[quote](.*?)\[\/quote\]/ms'	=> ''	// strip quotet text?
 	);
-	
+
 	return preg_replace(
 		array_keys($in),
 		array_values($in),
@@ -376,6 +397,3 @@ function buildPreview ( $strHaystack, $strNeedle, $strLength = 120, $bCase = TRU
 
 	return $arMatches[0];
 }
-
-
-?>

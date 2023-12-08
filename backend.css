@@ -15,7 +15,7 @@ input.mod_forum_edit_css {
   margin-left: 625px;
   margin-top: -20px;
   margin-bottom: 5px;
-  width: 110px;
+  width: 200px;
 }
 
 li.mod_forum_forum_level1{
@@ -90,25 +90,26 @@ ul.forum_list_postings li div.forum_list_title {
 	padding-left:20px;
 }
 ul.forum_list_postings li.thread{
-	background-color:#AAAAAA;
 	width:100%;
 	display:block;
 	float:left;
+    	background-color:#3c4150;
+}
+ul.forum_list_postings li.thread, ul.forum_list_postings li.thread a{
+    color:#fff;
 }
 
 ul.forum_list_postings li.post{
-	background-color:#CCCCCC;
+	background-color:#efefef;
 	width:100%;
 	display:block;
 	float:left;
-
 }
 
-li.post div.forum_list_id:before,
-li.post div.forum_list_date:before,
-li.post div.forum_list_title:before {
-	content:'> ';
+ul.forum_list_postings li.post .forum_list_id{
+    padding-left:20px;
 }
+
 img.f_action {
 	margin-right:5px;
 }
@@ -135,19 +136,20 @@ img.f_action {
 }
 
 .forum_settings {
-	min-width:50%;
+	min-width: 900px;
 	border-collapse: collapse;
 	border-spacing: 0px 0px;
 }
 .forum_settings tr {
 	height:25px;
 }
-.forum_settings tr:nth-child(even) {
+.forum_settings tr:nth-child(odd) {
 	background-color:#DDDDDD;
 }
-.forum_setting_name {
+.setting_name {
 	text-align:right;
 	padding-right:5px;
+    width: 400px;
 }
 
 .forum_message {

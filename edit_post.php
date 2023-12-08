@@ -3,18 +3,18 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
- 
- 
-require('../../config.php');
 
-require_once( dirname(__FILE__)."/classes/class.validate.request.php" );
+
+require_once '../../config.php';
+
+require_once __DIR__."/classes/class.validate.request.php";
 $oValidate = new c_validate_request();
 
 $fields = array(
@@ -22,7 +22,7 @@ $fields = array(
 	'page_id'		=> array('type' => 'integer+', 'default'	=> NULL),
 	'forumid'		=> array('type' => 'integer+', 'default'	=> NULL),
 	'postid'		=> array('type' => 'integer+', 'default'	=> NULL),
-	'class'			=> array('type' => 'string', 'default'	=> NULL)
+	'class'			=> array('type' => 'string'  , 'default'	=> NULL)
 );
 
 foreach($fields as $name => $options) {
@@ -31,15 +31,15 @@ foreach($fields as $name => $options) {
 	${$name} = $temp;
 }
 
-require(WB_PATH . '/modules/admin.php');
+require_once WB_PATH . '/modules/admin.php';
 
 /**
  *        Load Language file
  */
-$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
-require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang ); 
+$lang = __DIR__."/languages/". LANGUAGE .".php";
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
-require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+require_once __DIR__."/classes/class.forum_parser.php";
 $parser = new forum_parser();
 
 $result = ($class=="post")
@@ -48,7 +48,7 @@ $result = ($class=="post")
 	;
 
 if($database->is_error()) die($database->get_error());
-$post_data = $result->fetchRow( MYSQL_ASSOC );
+$post_data = $result->fetchRow( MYSQLI_ASSOC );
 
 $values = array(
 	"section_id"	=> $section_id,
@@ -58,9 +58,9 @@ $values = array(
 	"postid"		=> $postid,
 	"WB_URL"		=> WB_URL,
 	"FTAN"			=> (true === method_exists($admin, "getFTAN")) ? $admin->getFTAN() : "",
-	"title"			=> str_replace("\"", "&quot;", $post_data['title']),
-	"text"			=> ($class=="post") 
-		? $post_data['text'] 
+	"title"			=> $post_data['title'],
+	"text"			=> ($class=="post")
+		? $post_data['text']
 		: $database->get_one( "SELECT `text` from `".TABLE_PREFIX."mod_forum_post` where `threadid`=".$postid)
 );
 
@@ -70,4 +70,3 @@ echo $parser->render(
 );
 
 $admin->print_footer();
-?>

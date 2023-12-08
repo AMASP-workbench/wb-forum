@@ -8,6 +8,8 @@
 <input type="hidden" name="page_id" value="{{ page_id }}">
 <input type="hidden" name="forumid" value="{{ forum_id }}">
 
+{{ root }}
+
 {{ ftan }}
 
 <table class="edit_forum">
@@ -51,7 +53,7 @@
 		<td colspan="2" class="edit_forum_title">{{ MOD_FORUM_TXT_PERMISSIONS_B }}</td>
 	</tr>
 	<tr>
-		<td class="setting_name" width="100">{{ MOD_FORUM_TXT_READ_B }}</td>
+		<td class="setting_name">{{ MOD_FORUM_TXT_READ_B }}</td>
 		<td class="setting_value">
 			<select name="readaccess">
 				<option value="reg" {{ forum_readaccess_reg_selected }}>{{ MOD_FORUM_TXT_REGISTRATED_B }}</option>

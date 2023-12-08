@@ -3,21 +3,21 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-require('../../config.php');
+require_once '../../config.php';
 
 $admin_header = false;
 // Tells script to update when this page was last updated
 $update_when_modified = true;
 // Include WB admin wrapper script
-require(WB_PATH.'/modules/admin.php');
+require_once WB_PATH.'/modules/admin.php';
 
 if (!$admin->checkFTAN())
 {
@@ -27,7 +27,6 @@ if (!$admin->checkFTAN())
 $admin->print_header();
 
 $sec_anchor = (defined( 'SEC_ANCHOR' ) && ( SEC_ANCHOR != '' )  ? '#'.SEC_ANCHOR.$section['section_id'] : '' );
-
 
 // load module language file
 $lang = (dirname(__FILE__)) . '/languages/' . LANGUAGE . '.php';

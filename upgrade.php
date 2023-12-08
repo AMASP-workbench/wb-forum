@@ -3,15 +3,15 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-require(WB_PATH.'/modules/forum/info.php');
+require WB_PATH.'/modules/forum/info.php';
 
 /**
  *	Update the WB settings/inserts for the search
@@ -32,13 +32,13 @@ $field_info = serialize($temp_field_info);
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('module', 'forum', '$field_info')");
 
 //	[2.2]	Query start
-$query_start_code = "SELECT [TP]pages.page_id, [TP]pages.page_title, [TP]pages.link FROM [TP]mod_forum_post, [TP]pages WHERE ";
+$query_start_code = "SELECT `[TP]pages`.`page_id`, `[TP]pages`.`page_title`, `[TP]pages`.`link` FROM `[TP]mod_forum_post`, `[TP]pages` WHERE ";
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_start', '$query_start_code', 'forum')");
 
 //	[2.3]	Query body
 $query_body_code = "
-[TP]pages.page_id = [TP]mod_forum_post.page_id AND [TP]mod_forum_post.title [O] \'[W][STRING][W]\' AND [TP]pages.searching = \'1\' OR
-[TP]pages.page_id = [TP]mod_forum_post.page_id AND [TP]mod_forum_post.text [O] \'[W][STRING][W]\' AND [TP]pages.searching = \'1\'
+`[TP]pages`.`page_id` = `[TP]mod_forum_post`.`page_id` AND `[TP]mod_forum_post`.`title` [O] \'[W][STRING][W]\' AND `[TP]pages`.`searching` = \'1\' OR
+`[TP]pages`.`page_id` = `[TP]mod_forum_post`.`page_id` AND `[TP]mod_forum_post`.`text` [O] \'[W][STRING][W]\' AND `[TP]pages`.`searching` = \'1\'
 ";
 $database->query("INSERT INTO `".TABLE_PREFIX."search` (`name`, `value`, `extra`) VALUES ('query_body', '$query_body_code', 'forum')");
 
@@ -52,5 +52,3 @@ $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_forum` CHARACTER SET = 
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_post` CHARACTER SET = utf8;");
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` CHARACTER SET = utf8;");
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_thread` CHARACTER SET = utf8;");
-
-?>

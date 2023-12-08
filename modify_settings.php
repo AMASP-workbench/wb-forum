@@ -3,8 +3,8 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
@@ -12,11 +12,11 @@
  */
 
 // STEP 1:	Initialize
-require('../../config.php');
-require(WB_PATH.'/modules/admin.php');					// Include WB admin wrapper script
+require_once '../../config.php';
+require_once WB_PATH.'/modules/admin.php';
 
 // include core functions of WB 2.7 to edit the optional module CSS files (frontend.css, backend.css)
-include_once(WB_PATH .'/framework/module.functions.php');
+require_once WB_PATH .'/framework/module.functions.php';
 
 /**
  *        Load Language file
@@ -24,15 +24,8 @@ include_once(WB_PATH .'/framework/module.functions.php');
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
-require_once( dirname(__FILE__)."/classes/class.forum_parser.php" );
+require_once __DIR__."/classes/class.forum_parser.php";
 $parser = new forum_parser();
-
-// check if backend.css file needs to be included into the <body></body> of modify.php
-if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH ."/modules/forum/backend.css")) {
-	echo '<style type="text/css">';
-	include(WB_PATH .'/modules/forum/backend.css');
-	echo "\n</style>\n";
-}
 
 ?>
 
@@ -44,9 +37,6 @@ if(!method_exists($admin, 'register_backend_modfiles') && file_exists(WB_PATH ."
 if(function_exists('edit_module_css')) {
 	edit_module_css('forum');
 }
-?>
-
-<?php
 
 // Get Settings from DB
 $sql  = 'SELECT * FROM `'.TABLE_PREFIX.'mod_forum_settings` WHERE `section_id` = '.$section_id.'';
@@ -59,10 +49,10 @@ if($query_settings = $database->query($sql)) {
  */
 $this_page_admins = $database->get_one("SELECT `admin_groups` FROM `".TABLE_PREFIX."pages` WHERE `page_id`=".$page_id);
 $this_page_admins = explode(",",$this_page_admins);
- 
+
 $sGroupSelectHTML = "<select name='admin_group_id' size='1' >\n<option value='0'>".$MOD_FORUM['NO_ADDITIONAL_GROUP']."</option>\n";
 $query_groups = $database->query('SELECT * FROM `'.TABLE_PREFIX.'groups`');
-while ($group = $query_groups->fetchRow(MYSQL_ASSOC)){
+while ($group = $query_groups->fetchRow(MYSQLI_ASSOC)){
 
 	if (in_array( $group['group_id'], $this_page_admins)) {
 		$sGroupSelectHTML .= "\n<option disabled='disabled' value='".$group['group_id']."'>".$group['name']."</option>";
@@ -72,7 +62,7 @@ while ($group = $query_groups->fetchRow(MYSQL_ASSOC)){
 
 	} else {
 		$sGroupSelectHTML .= "\n<option value='".$group['group_id']."'>".$group['name']."</option>";
-	}							
+	}
 }
 $sGroupSelectHTML .= "\n</select>\n";
 
@@ -115,7 +105,7 @@ $page_data = array(
 	'settings_FORUM_MAIL_SENDER_REALNAME'	=> htmlspecialchars($settings['FORUM_MAIL_SENDER_REALNAME']),
 	'MOD_FORUM_TXT_SAVE_B'	=> $MOD_FORUM['TXT_SAVE_B'],
 	'MOD_FORUM_TXT_CANCEL_B'	=> $MOD_FORUM['TXT_CANCEL_B'],
-	
+
 	'MOD_FORUM_TXT_ADMIN_GROUP_ID_B'	=> $MOD_FORUM['TXT_ADMIN_GROUP_ID_B'],
 	'group_select'	=> $sGroupSelectHTML
 );
@@ -123,4 +113,6 @@ $page_data = array(
 echo $parser->render(
 	"settings.lte",
 	$page_data
-);	
+);
+
+$admin->print_footer();

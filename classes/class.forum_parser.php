@@ -1,19 +1,19 @@
 <?php
 
-//	No direct file access
-if(count(get_included_files())==1) die(header("Location: ../../index.php",TRUE,301));
-if(!defined('WB_PATH')) die(header("Location: ../../index.php",TRUE,301));
-
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
+
+//	No direct file access
+if(count(get_included_files())==1) die(header("Location: ../../index.php",TRUE,301));
+if(!defined('WB_PATH')) die(header("Location: ../../index.php",TRUE,301));
 
 class forum_parser
 {
@@ -26,19 +26,27 @@ class forum_parser
 	public $loader = NULL;
 	public $parser = NULL;
 	public $template_path = "";
-	
 	public $CMS_PATH = "";
 	public $CMS_URL	= "";
 	public $CMS		= 0;
 	
+    /**
+     * constructor
+     **/
 	public function __construct() {
-		
 		$this->initWorld();
-	
 	}
 	
-	public function render($sFilename, &$aData) {
-	
+    /**
+     * render
+     * uses Twig if available; simple replacement of {{var}} otherwise
+     *
+     * @param string sFilename
+     * @param array  aData
+     * @return string
+     **/
+	public function render($sFilename, &$aData)
+    {
 		if( true === $this->twig_loaded ) {
 			return $this->parser->render( $sFilename, $aData );
 		}
@@ -48,7 +56,7 @@ class forum_parser
 		}
 		$sReturnvalue = file_get_contents($this->template_path.$sFilename);
 		
-		$this->strip_twig_tags( $sReturnvalue );
+		$this->strip_twig_tags($sReturnvalue);
 		
 		foreach($aData as $key => $value) {
 			$sReturnvalue = str_replace("{{ ".$key." }}", $value, $sReturnvalue);
@@ -129,4 +137,3 @@ class forum_parser
 		}
 	}
 }
-?>

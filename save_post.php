@@ -3,18 +3,18 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
- 
-require('../../config.php');
+
+require_once '../../config.php';
 
 $admin_header = false; // suppress to print the header, so no new FTAN will be set
-require(WB_PATH . '/modules/admin.php');
+require_once WB_PATH . '/modules/admin.php';
 
 if (!$admin->checkFTAN())
 {
@@ -25,7 +25,7 @@ else {
 	$admin->print_header();
 }
 
-require_once( dirname(__FILE__)."/classes/class.validate.request.php" );
+require_once __DIR__."/classes/class.validate.request.php";
 $oValidate = new c_validate_request();
 
 $fields = array(
@@ -45,23 +45,23 @@ foreach($fields as $name => $options) {
 }
 
 /**
- *	Some 'parsing'fpr 'title' and 'text'
+ *	Some 'parsing' for 'title' and 'text'
  */
 if(method_exists($database, "escapeString")) {
 	$text = $database->escapeString($text);
 	$title = $database->escapeString($title);
 } else {
-	$text = str_replace( array("<","#", "/*"), "", htmlspecialchars($text) ); 
-	$title = str_replace( array("<","#", "/*"), "", htmlspecialchars($title) ); 
+	$text = str_replace( array("<","#", "/*"), "", htmlspecialchars($text) );
+	$title = str_replace( array("<","#", "/*"), "", htmlspecialchars($title) );
 }
 
-require( WB_PATH.'/modules/admin.php' );
+require_once WB_PATH.'/modules/admin.php';
 
 /**
  *        Load Language file
  */
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
-require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang ); 
+require_once ( !file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang );
 
 if ($class=="post") {
 	$database->query( "UPDATE `".TABLE_PREFIX."mod_forum_post` set `title`='".$title."',`text`='".$text."' WHERE `postid`=".$postid );
@@ -74,4 +74,3 @@ if($database->is_error()) die($database->get_error());
 
 $admin->print_success("Forum gespeichert! [1]", WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&section_id=' . $section_id."&forumid=".$forumid);
 return 0;
-?>

@@ -42,6 +42,7 @@
 	color: #000;
 	font-size: 10px;
 	font-weight: normal;
+    float: right;
 }
  /* thread overview */
 .thread_head {
@@ -292,6 +293,9 @@
 .forum_smilies {
 	border: none;
 	margin-right: 6px;
+}
+input[name="mod_forum_search"] {
+    width:70%;
 }
 /* otherworld */
 .mod_forum_hits{

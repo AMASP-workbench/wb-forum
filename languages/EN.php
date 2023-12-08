@@ -109,6 +109,7 @@ $MOD_FORUM = array(
 	'TXT_FORUM_MAIL_SENDER_REALNAME_B'	=> 'Email sender name?',	
 	'TXT_USE_SMILEYS_B'				=> 'Use Smileys?',
 	'TXT_HIDE_EDITOR_B'				=> 'Hide Editor?',
+    'TXT_POSTINGS_B'                => 'Postings',
 	
 	//	0.5.9 
 	
@@ -120,4 +121,3 @@ $MOD_FORUM = array(
 	'Error_no_subforum'	=> 'You can not set a forum himself as a subforum!',
 	'Error_no_forum'	=> 'Forum fouls!'
 );
-?>

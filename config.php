@@ -3,8 +3,8 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
@@ -19,10 +19,12 @@ $query_settings = $database->query($sql);
 if ($query_settings === false || $query_settings->numRows()  == 0) {
 	$sql = "INSERT INTO `".TABLE_PREFIX."mod_forum_settings` VALUES(0,".$section_id.", 5, 5, 0, 1, 1, 1, 1, 1, 30, 0, '', 'admin@admin.de', 'WEBSite Forum', 1, 0, '')";
 	$database->query($sql);
-} 
+}
 
 // Get Settings from DB
-$settings = $query_settings->fetchRow( MYSQL_ASSOC );
+$sql = "SELECT * from `".TABLE_PREFIX."mod_forum_settings` WHERE `section_id` = ".$section_id;
+$query_settings = $database->query($sql);
+$settings = $query_settings->fetchRow( MYSQLI_ASSOC );
 
 // Einträge, die in der Themenübersicht je Seite angezeigt werden sollen
 define('FORUMDISPLAY_PERPAGE', $settings['FORUMDISPLAY_PERPAGE']);
@@ -71,5 +73,3 @@ define('FORUM_HIDE_EDITOR', $settings['FORUM_HIDE_EDITOR']);
 
 // remember user data
 define('FORUM_USERS', $settings['FORUM_USERS']);
-
-?>

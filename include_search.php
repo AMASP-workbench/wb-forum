@@ -3,30 +3,28 @@
 /**
  *
  *	@module			Forum
- *	@version		0.5.10
- *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
+ *	@version		0.6
+ *	@authors		Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *	@license		GNU General Public License
  *	@platform		2.8.x
  *	@requirements	PHP 5.6.x and higher
  *
  */
 
-if(!defined('WB_PATH')) {
-	exit("Cannot access this file directly");
-}
+defined('WB_PATH') OR header('Location: ../../index.php');
 
 require_once WB_PATH . '/modules/forum/config.php';
 require_once WB_PATH . '/modules/forum/functions.php';
 
 // global $database;
 
-require_once(dirname(__FILE__)."/classes/class.subway.php");
+require_once __DIR__."/classes/class.subway.php";
 $subway = new subway();
 
-$search_string = strip_tags( $database->escapeString($_GET['mod_forum_search']));
+$search_string = strip_tags($database->escapeString($_GET['mod_forum_search']));
 
 /**
- *	Storrage for all "hits"
+ *	Storage for all "hits"
  */
 $all_posts = array();
 
@@ -96,7 +94,7 @@ if(count($all_posts) > 0)
 
 		$out .= '</div>';
 
-}else{
+} else {
 
 	if ($search_string == '') {
 		$out .= '<div id="mod_last_forum_entries_heading"><h3>' . $MOD_FORUM['TXT_NO_SEARCH_STRING_F'] . '</h3>';
@@ -112,6 +110,6 @@ if(count($all_posts) > 0)
 
 <h1>Forum durchsuchen</h1>
 
-<?php include_once WB_PATH . '/modules/forum/include_searchform.php' ?>
-
-<?php echo $out ?>
+<?php
+include_once WB_PATH . '/modules/forum/include_searchform.php';
+echo $out;

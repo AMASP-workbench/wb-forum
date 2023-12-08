@@ -1,12 +1,10 @@
 {% autoescape false %}
 <div class="forum_search">
-
 	<form action="{{ action }}" method="get">
 		<input type="hidden" name="search" value="1" />
 		<label for="mod_forum_search">{{ TEXT_SEARCH }}: </label>
 		<input type="text" id="mod_forum_search" name="mod_forum_search" value="{{ searchVal }}" />
 		<input type="submit" value="{{ submit_text }}" class="forum_search_submit"/>
 	</form>
-
 </div>
 {% endautoescape %}
