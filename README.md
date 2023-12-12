@@ -1,17 +1,46 @@
 
-## WB Forum
-This module integrates a simple forum in your Website Baker website.
+## WBCE Forum
+This module integrates a simple forum in your [WBCE][2] website.
 
 ###
 - license	http://www.gnu.org/licenses/gpl.html
-- platform	[WebsiteBaker][1] > 2.8.3 SP3 and [WBCE][2] >= 1.1.6
-- version	0.5.10
+- platform	[WBCE][2] >= 1.5.1
+- version	0.6.7
 
 ### Authors
 Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last) 
 
 #### Brief changelog
 Details on [GitHub] [3]
+
+##### 0.6.7
+- fixes for WBCE 1.6.1 and PHP 8.2.
+
+##### 0.6.6
+- fixes for PHP8.1 (Bernd)
+
+##### 0.6.4
+- fix issues with rights to post / edit / delete (2nd try)
+
+##### 0.6.3
+- fix issues with rights to post / edit / delete
+
+##### 0.6.2
+- remove forgotten debug output/exit
+
+##### 0.6.1
+- fixed double-escaped POST data in content.php
+ 
+##### 0.6
+- added backticks to SQL statements
+- some layout tweaks
+- removed paranthesis from include* and require*
+- removed closing ?> from end-of-file
+- reformatted some files using CSFixer
+- added missing $admin->print_footer();
+
+##### 0.5.11
+- fixes for MySQL-Strict (Bernd)
 
 ##### 0.5.10
 - Bugfixes inside installer.

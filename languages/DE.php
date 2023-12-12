@@ -2,12 +2,12 @@
 
 /**
  *
- *    @module            Forum
- *    @version        0.5.10
- *    @authors        Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
- *    @license        GNU General Public License
- *    @platform        2.8.x
- *    @requirements    PHP 5.6.x and higher
+ *    @module       Forum
+ *    @version      0.6.7
+ *    @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
+ *    @license      GNU General Public License
+ *    @platform     2.8.x
+ *    @requirements PHP 8.1.x and higher
  *
  */
 

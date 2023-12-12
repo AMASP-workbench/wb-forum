@@ -88,4 +88,4 @@ class subway extends forum_parser
 	}
 
 }
-?>
+

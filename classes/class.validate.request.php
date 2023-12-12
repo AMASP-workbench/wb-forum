@@ -228,4 +228,3 @@ class c_validate_request
 		return true;
 	}
 }
-?>
