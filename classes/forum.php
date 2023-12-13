@@ -28,6 +28,11 @@ class forum
         return static::$instance;
     }
     
+    /**
+     *  See details about the applied technique:
+     *  https://forum.wbce.org/viewtopic.php?id=1598
+     *
+     */
     public function getFrontendTemplateCSS(): string
     {
         $html = "";
