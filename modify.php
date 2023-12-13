@@ -77,7 +77,8 @@ $page_data = array(
     'TEXT_HELP'                     => $MENU["HELP"],
     'TEXT_SETTINGS'                 => $TEXT['SETTINGS'],
     'message'                       => $message,
-    'forums_list'                   => $forums_list
+    'forums_list'                   => $forums_list,
+    'theme_css'                     => forum::getInstance()->getBackendThemeCSS()
 );
 
 echo $parser->render(
