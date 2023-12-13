@@ -14,15 +14,18 @@
 // Include config file
 require_once '../../config.php';
 
-if(isset($_REQUEST['goto'])) $_REQUEST['tid'] = $_REQUEST['goto'];
+if (isset($_REQUEST['goto'])) $_REQUEST['tid'] = $_REQUEST['goto'];
 
-if(!isset($_REQUEST['tid'])) die("E: 120023");
+if (!isset($_REQUEST['tid'])) die("E: 120023");
 
 /**
  * prüfen, ob wir auf einen einzelnes posting weiterleiten sollen
  * wenn wir das an dieser stelle prüfen, müssen wir $_pages nicht
  * für jeden link ausrechnen. sehr performant :)
  */
+
+// [1]
+echo forum::getInstance()->getFrontendTemplateCSS();
 
 if (isset($_GET['goto']))
 {
@@ -72,7 +75,7 @@ if (isset($_GET['goto']))
 $thread_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_thread` WHERE `threadid` = '" . intval($_REQUEST['tid']) . "'");
 $thread = $thread_query->fetchRow( MYSQLI_ASSOC );
 
-if(!$thread)
+if (!$thread)
 {
 	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
@@ -80,7 +83,7 @@ if(!$thread)
 $forum_query = $database->query("SELECT * FROM `" . TABLE_PREFIX . "mod_forum_forum` WHERE `forumid` = '" . intval($thread['forumid']) . "'");
 $forum = $forum_query->fetchRow( MYSQLI_ASSOC );
 
-if(!$forum)
+if (!$forum)
 {
 	die(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
@@ -99,7 +102,7 @@ $query_page = $database->query("
 	WHERE `p`.`page_id` = '$page_id' AND `section_id` = '$section_id'
 ");
 
-if(0 == $query_page->numRows())
+if (0 == $query_page->numRows())
 {
 	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }

@@ -18,7 +18,7 @@ $module_version     = '0.6.7';
 $module_platform    = '1.6';
 $module_license     = 'GNU General Public License';
 $module_author      = 'Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic, florian (last)';
-$module_home        = 'http://addon.websitebaker.org/pages/en/browse-add-ons.php?type=1';
+$module_home        = 'https://addons.wbce.org/pages/addons.php?do=item&item=57';
 $module_guid        = '44CF11ED-D38A-4B51-AF80-EE95F7C4C00D';
 $module_description = 'This module integrates a simple forum on your website.<br/>';
 

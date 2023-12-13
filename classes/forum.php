@@ -27,4 +27,29 @@ class forum
         }
         return static::$instance;
     }
+    
+    public function getFrontendTemplateCSS(): string
+    {
+        $html = "";
+        
+        $lookupPath = "/templates/".$this->getFrontendTemplate()."/frontend/forum/frontend.css";
+        if (file_exists(WB_PATH.$lookupPath))
+        {
+            $html .= "
+                \n<!--(MOVE) JS BODY BTM- -->
+                \n<script>
+                $('head').append(\"<link rel='stylesheet' type='text/css' href='".WB_URL.$lookupPath."' />\");
+                </script>
+                <!--(END)-->\n";
+        }
+        
+        return $html;
+    }
+    
+    protected function getFrontendTemplate(): string
+    {
+        global $wb;
+        
+        return ($wb->page['template'] === "") ? DEFAULT_TEMPLATE : $wb->page['template']; 
+    }
 }

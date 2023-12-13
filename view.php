@@ -19,6 +19,9 @@ defined('WB_PATH') or header('Location: ../../index.php');
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
 require (!file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang);
 
+// [1]
+echo forum::getInstance()->getFrontendTemplateCSS();
+
 if (isset($_GET['search']) and $_GET['search']==1) {
     include 'include_search.php';
     unset($_GET['search']);

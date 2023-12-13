@@ -16,8 +16,8 @@ defined('WB_PATH') or header('Location: ../../index.php');
 /**
  *        Load Language file
  */
-$lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
-require_once(!file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang);
+$lang = __DIR__."/languages/". LANGUAGE .".php";
+require_once(!file_exists($lang) ? __DIR__."/languages/EN.php" : $lang);
 
 require_once __DIR__."/classes/class.subway.php";
 $subway = new subway();
@@ -27,6 +27,9 @@ $username = "";
 global $post, $user, $forum, $thread, $page_id, $section_id, $forumcache, $iforumcache;
 
 echo '<script src="frontend.js" type="text/javascript"></script>';
+
+// [1]
+echo forum::getInstance()->getFrontendTemplateCSS();
 
 /**
  *	Test the user
@@ -57,15 +60,9 @@ if (($forum['writeaccess'] == 'unreg') || ($forum['writeaccess'] == 'both')) {
     $user_can_create_topic = true;
 }
 
-/*
-echo "FILE [",__FILE__,"] FUNC [",__FUNCTION__,"] LINE [",__LINE__,"]<br /><textarea style=\"width:100%;height:200px;color:#000;background-color:#fff;\">";
-print_r($_POST);
-echo "</textarea><br />";exit;
-*/
-
 // ####################### EDIT POST (SEARCH) ########################
-if (FORUM_DISPLAY_CONTENT == 'search_the_forum') {
-    //die('huhu');
+if (FORUM_DISPLAY_CONTENT == 'search_the_forum')
+{
     //include_once('include.search.php');
 }
 // ####################### DISPLAY CONTENTS OF A FORUM #########################

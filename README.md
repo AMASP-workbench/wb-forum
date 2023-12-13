@@ -16,6 +16,8 @@ Details on [GitHub] [3]
 ##### 0.6.8
 - Add preinit and additional class.
 - Remove some typos and wrong values in some (headers-)comments.
+- Module_home is now WBCE repository (broken link in WB[-org]).
+- Frontend-template css support.
 
 ##### 0.6.7
 - fixes for WBCE 1.6.1 and PHP 8.2.
@@ -77,6 +79,15 @@ if(function_exists('register_frontend_modfiles')) {
   register_frontend_modfiles('js');
 } ?>
 ```
+##### Frontend-template css support
+Instead of overwriting/changing the frontend.css of the module itself the user  
+can add his own-css inside the frontend-template:
+```code
+Path: ~/wbce/templates/<the_current_frontend-template>/frontend/forum/frontend.css
+```
+Keep in mind that the use img inside the css hav rellative paths, so  
+it is a good idea to place the (own) used img inside a subfolder "images" there also.
+Or just copy them from the module.
 
 Attention to the call of JavaScript (filename.js) more than once in the template which would make problems. Perhaps you need to comment the last line out with "//".
 
