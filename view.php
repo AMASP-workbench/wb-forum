@@ -3,10 +3,10 @@
 /**
  *
  *    @module       Forum
- *    @version      0.6.7
+ *    @version      0.6.8
  *    @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *    @license      GNU General Public License
- *    @platform     2.8.x
+ *    @platform     1.6.x
  *    @requirements PHP 8.1.x and higher
  *
  */
@@ -17,7 +17,7 @@ defined('WB_PATH') or header('Location: ../../index.php');
  *        Load Language file
  */
 $lang = (dirname(__FILE__))."/languages/". LANGUAGE .".php";
-require_once(!file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang);
+require (!file_exists($lang) ? (dirname(__FILE__))."/languages/EN.php" : $lang);
 
 if (isset($_GET['search']) and $_GET['search']==1) {
     include 'include_search.php';
@@ -28,7 +28,7 @@ if (isset($_GET['search']) and $_GET['search']==1) {
     $url = WB_URL;
     $pageurl = $url . PAGES_DIRECTORY . $wb->page['link'] . PAGE_EXTENSION;
 
-    require_once WB_PATH . '/modules/forum/backend.php';
+    require WB_PATH . '/modules/forum/backend.php';
 
     if (is_array($forumcache)) {
         $forum_counts_query = $database->query("
@@ -44,7 +44,6 @@ if (isset($_GET['search']) and $_GET['search']==1) {
             $forumcache[$fc['forumid']]['threadcount'] = $fc['threadcount'];
         }
     }
-
     if (!count($iforumcache) || !isset($iforumcache[0]) || !is_array($iforumcache[0]) || count($iforumcache[0]) == 0) {
         echo 	$MOD_FORUM['TXT_NO_FORUMS_B'];
     } else {
@@ -111,7 +110,8 @@ if (isset($_GET['search']) and $_GET['search']==1) {
             }
 ?>
 	 	</div>
-<?php
+<?php 
+
         }
     }
 }

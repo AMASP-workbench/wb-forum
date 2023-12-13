@@ -3,10 +3,10 @@
 /**
  *
  *    @module       Forum
- *    @version      0.6.7
+ *    @version      0.6.8
  *    @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *    @license      GNU General Public License
- *    @platform     2.8.x
+ *    @platform     1.6.x
  *    @requirements PHP 8.1.x and higher
  *
  */
@@ -14,10 +14,13 @@
 // Include config file
 require_once '../../config.php';
 
+global $section_id;
 if (!isset($_REQUEST['fid']))
 {
     $tempLookForResult = $database->query(
-        "SELECT `forum_id` FROM `".TABLE_PREFIX."mod_forum_forum` WHERE parent_id > 0 LIMIT 1"
+        "SELECT `forum_id` 
+         FROM `".TABLE_PREFIX."mod_forum_forum`
+         WHERE parent_id = 0 AND section_id = ".$section_id
     );
     $tempInfo = $tempLookForResult->fetchRow();
     $_REQUEST['fid'] = $tempInfo['forum_id'];

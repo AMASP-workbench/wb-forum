@@ -13,6 +13,10 @@ Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke (last)
 #### Brief changelog
 Details on [GitHub] [3]
 
+##### 0.6.8
+- Add preinit and additional class.
+- Remove some typos and wrong values in some (headers-)comments.
+
 ##### 0.6.7
 - fixes for WBCE 1.6.1 and PHP 8.2.
 

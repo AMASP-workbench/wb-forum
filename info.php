@@ -3,17 +3,17 @@
 /**
  *
  *    @module       Forum
- *    @version      0.6.7
+ *    @version      0.6.8
  *    @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
  *    @license      GNU General Public License
- *    @platform     2.8.x
+ *    @platform     1.6.x
  *    @requirements PHP 8.1.x and higher
  *
  */
 
 $module_directory   = 'forum';
 $module_name        = 'Forum';
-$module_function    = 'page';
+$module_function    = 'page,preinit';
 $module_version     = '0.6.7';
 $module_platform    = '1.6';
 $module_license     = 'GNU General Public License';
@@ -23,7 +23,7 @@ $module_guid        = '44CF11ED-D38A-4B51-AF80-EE95F7C4C00D';
 $module_description = 'This module integrates a simple forum on your website.<br/>';
 
 /**
- *
+ *  0.6.8   - Add preinit ans additional class.
  *  0.6.7   - fixes for WBCE 1.6.1 and PHP 8.2.
  *  0.6.6   - fixes for PHP8.1 (Bernd)
  *  0.6.4   - fix issues with rights to post / edit / delete (2nd try)
