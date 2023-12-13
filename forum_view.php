@@ -2,12 +2,12 @@
 
 /**
  *
- *    @module       Forum
- *    @version      0.6.8
- *    @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
- *    @license      GNU General Public License
- *    @platform     1.6.x
- *    @requirements PHP 8.1.x and higher
+ *  @module       Forum
+ *  @version      0.6.8
+ *  @authors      Julian Schuh, Bernd Michna, "Herr Rilke", Dietrich Roland Pehlke, Bianka Martinovic (last)
+ *  @license      GNU General Public License
+ *  @platform     1.6.x
+ *  @requirements PHP 8.1.x and higher
  *
  */
 
@@ -18,7 +18,7 @@ global $section_id;
 if (!isset($_REQUEST['fid']))
 {
     $tempLookForResult = $database->query(
-        "SELECT `forum_id` 
+        "SELECT `forumid` 
          FROM `".TABLE_PREFIX."mod_forum_forum`
          WHERE parent_id = 0 AND section_id = ".$section_id
     );
@@ -49,7 +49,7 @@ $query_page = $database->query("
 	WHERE `p`.`page_id` = '$page_id' AND `section_id` = '$section_id'
 ");
 
-if(!$query_page->numRows())
+if (!$query_page->numRows())
 {
 	exit(header('Location: ' . WB_URL . PAGES_DIRECTORY));
 }
