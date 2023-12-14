@@ -14,10 +14,10 @@
 defined('WB_PATH') OR header('Location: ../../index.php');
 
 $sql = 'SELECT DISTINCT (`u`.`email`),`u`.`display_name`
-			FROM `'.TABLE_PREFIX.'mod_forum_post` `p`
-				INNER JOIN `'.TABLE_PREFIX.'users` `u` ON(`p`.`userid` = `u`.`user_id`)
-			WHERE `threadid` = ' . $thread['threadid'] .'
-			  AND `u`.`email` <> "' . (isset($_SESSION['EMAIL']) ? $_SESSION['EMAIL'] : "") .'" ';
+        FROM `'.TABLE_PREFIX.'mod_forum_post` `p`
+        INNER JOIN `'.TABLE_PREFIX.'users` `u` ON(`p`.`userid` = `u`.`user_id`)
+        WHERE `threadid` = ' . $thread['threadid'] .'
+        AND `u`.`email` <> "' . (isset($_SESSION['EMAIL']) ? $_SESSION['EMAIL'] : "") .'" ';
 
 $res = $database->query($sql);
 
@@ -29,7 +29,7 @@ $arr_search = array('##THREAD##', '##LINK##');
 $_link = WB_URL . '/modules/forum/thread_view.php?goto='. $id['id'];
 $arr_replace = array(trim($_POST['title']), $_link);
 
-if( isset($res) AND $res->numRows() > 0)
+if (isset($res) AND $res->numRows() > 0)
 {
 	$mail_body = str_replace($arr_search, $arr_replace , $MOD_FORUM['TXT_MAILTEXT_NEW_POST'] );
 	while(FORUM_SENDMAILS_ON_NEW_POSTS && $row = $res->fetchRow())
@@ -69,5 +69,3 @@ if (strpos(FORUM_ADMIN_INFO_ON_NEW_POSTS,'@') !== false && (!isset($_SESSION['EM
 if ($mails_ok || $mails_error) {
 	$mailing_result = '<br/>' . $mails_ok . $MOD_FORUM['TXT_MAILS_SEND_F'] . '<br/>' . $mails_error .  $MOD_FORUM['TXT_MAIL_ERRORS_F'];
 }
-// die ($tmp);
-// die( htmlentities( nl2br($debug) ));
