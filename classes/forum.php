@@ -78,6 +78,6 @@ class forum
     {
         global $wb;
         
-        return ($wb->page['template'] === "") ? DEFAULT_TEMPLATE : $wb->page['template']; 
+        return (($wb->page['template'] ?? "") === "") ? DEFAULT_TEMPLATE : $wb->page['template']; 
     }
 }

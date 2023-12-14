@@ -91,6 +91,8 @@ Or just copy them from the module.
 
 Attention to the call of JavaScript (filename.js) more than once in the template which would make problems. Perhaps you need to comment the last line out with "//".
 
+![forum frontend](./doc/forum_frontend_0.png)
+
 ##### Using the module:
 Add a new page with the type «forum».  
 Check the page administration if a usergroup should get permissions to modify/delete the page.
