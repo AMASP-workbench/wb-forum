@@ -18,6 +18,7 @@ Details on [GitHub] [3]
 - Remove some typos and wrong values in some (headers-)comments.
 - Module_home is now WBCE repository (broken link in WB[-org]).
 - Frontend-template css support.
+- Backend-theme css support.
 
 ##### 0.6.7
 - fixes for WBCE 1.6.1 and PHP 8.2.
