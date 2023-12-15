@@ -83,19 +83,19 @@
 		<tr>
 		<td class="setting_name">{{ MOD_FORUM_TXT_FORUM_ADMIN_INFO_ON_NEW_POSTS_B }} : </td>
 		<td class="setting_value">
-			<input type="text" name="forum_admin_info_on_new_posts"  maxlength="30" value="{{ settings_FORUM_ADMIN_INFO_ON_NEW_POSTS }}" />
+			<input type="text" name="forum_admin_info_on_new_posts"  maxlength="180" value="{{ settings_FORUM_ADMIN_INFO_ON_NEW_POSTS }}" />
 		</td>
 	</tr>
 	<tr>
 		<td class="setting_name">{{ MOD_FORUM_TXT_FORUM_MAIL_SENDER_B }} : </td>
 		<td class="setting_value">
-			<input type="text" name="forum_mail_sender"  maxlength="30" value="{{ settings_FORUM_MAIL_SENDER }}" />
+			<input type="text" name="forum_mail_sender"  maxlength="180" value="{{ settings_FORUM_MAIL_SENDER }}" />
 		</td>
 	</tr>
 	<tr>
 		<td class="setting_name">{{ MOD_FORUM_TXT_FORUM_MAIL_SENDER_REALNAME_B }} : </td>
 		<td class="setting_value">
-			<input type="text" name="forum_mail_sender_realname"  maxlength="30" value="{{ settings_FORUM_MAIL_SENDER_REALNAME }}" />
+			<input type="text" name="forum_mail_sender_realname"  maxlength="180" value="{{ settings_FORUM_MAIL_SENDER_REALNAME }}" />
 		</td>
 	</tr>
 </table>

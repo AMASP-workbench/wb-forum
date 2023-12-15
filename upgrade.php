@@ -52,3 +52,8 @@ $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_forum` CHARACTER SET = 
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_post` CHARACTER SET = utf8;");
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` CHARACTER SET = utf8;");
 $database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_thread` CHARACTER SET = utf8;");
+
+// [4]
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` MODIFY `FORUM_ADMIN_INFO_ON_NEW_POSTS` varchar(180)");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` MODIFY `FORUM_MAIL_SENDER` varchar(180)");
+$database->query("ALTER TABLE `".TABLE_PREFIX."mod_forum_settings` MODIFY `FORUM_MAIL_SENDER_REALNAME` varchar(180)");

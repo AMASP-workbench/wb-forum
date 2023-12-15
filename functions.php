@@ -78,7 +78,7 @@ function print_forums($parentid, $level = 0)
         {
 
             echo '<li class="mod_forum_forum_level'.$arrLevel[$forumid].'">';
-            echo '<a href="' . WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&amp;section_id=' . $section_id . '&amp;forumid=' . $forumid . '">' . htmlspecialchars($forum['title']) . '</a>';
+            echo '<a href="' . WB_URL . '/modules/forum/addedit_forum.php?page_id=' . $page_id . '&amp;section_id=' . $section_id . '&amp;forumid=' . $forumid . '">' . ($forum['title']) . '</a>';
             if (!empty($forum_array["$forumid"]))
             {
                 echo '<ul class="forum_list">';
